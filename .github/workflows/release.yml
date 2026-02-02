@@ -21,7 +21,6 @@ jobs:
             token: ${{ secrets.ACCESS_TOKEN }}
 
         - uses: pdm-project/setup-pdm@v3
-
         - name: "sync from upstream"
           run: |
             git config user.name "github-actions[bot]"
@@ -29,5 +28,10 @@ jobs:
             make sync
             git push
 
+        - name: Upload a Build Artifact
+          uses: actions/upload-artifact@v6.0.0
+          with:
+            path: dist/*.whl
+            
         - name: Publish package distributions to PyPI
           run: pdm publish
